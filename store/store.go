@@ -2,7 +2,6 @@ package store
 
 import (
 	"fmt"
-	"log"
 
 	"github.com/andrewhoff/logr/config"
 )
@@ -36,17 +35,14 @@ func Init() {
 // Dequeue .. removes the next in line, highest priority item from the list
 func (store *Store) Dequeue() *Item {
 	if store.LenWithPriority(config.HighPriority) != 0 {
-		log.Println("HIGH")
 		return store.ds[config.HighPriority].Pop()
 	}
 
 	if store.LenWithPriority(config.MedPriority) != 0 {
-		log.Println("MED")
 		return store.ds[config.MedPriority].Pop()
 	}
 
 	if store.LenWithPriority(config.LowPriority) != 0 {
-		log.Println("LOW")
 		return store.ds[config.LowPriority].Pop()
 	}
 
