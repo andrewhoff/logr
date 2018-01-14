@@ -1,0 +1,4 @@
+package: github.com/andrewhoff/logr
+import:
+- package: github.com/fatih/color
+  version: ^1.5.0

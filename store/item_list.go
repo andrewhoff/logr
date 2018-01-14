@@ -20,7 +20,6 @@ func (list *ItemList) Add(item *Item) {
 
 // Pop ...
 func (list *ItemList) Pop() *Item {
-	fmt.Println(list)
 	item := list.Items[0]
 	list.Items = list.Items[1:]
 

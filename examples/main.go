@@ -20,11 +20,21 @@ func main() {
 		panic(err)
 	}
 
-	writer.Log(logr.HighPriority, "hello high priority")
-	writer.Log(logr.HighPriority, "hello high prioritdadfasdfy")
-	writer.Log(logr.MedPriority, "hello high prioriasdfaskhbvasldvsty")
+	writer.Log(logr.HighPriority, "hello super high priority")
+	writer.Log(logr.HighPriority, "hello 1")
+	writer.Log(logr.HighPriority, "hello 2")
+	writer.Log(logr.HighPriority, "hello 3")
+	writer.Log(logr.MedPriority, "hello mid priority")
+	writer.Log(logr.MedPriority, "hello mid priority")
+	writer.Log(logr.HighPriority, "hello 4")
+	writer.Log(logr.MedPriority, "hello mid priority")
+	writer.Log(logr.LowPriority, "hello low priority")
+	writer.Log(logr.MedPriority, "hello mid priority")
 
-	fmt.Println(reader.Get())
-	fmt.Println(reader.Get())
-	fmt.Println(reader.Get())
+	gotten := reader.Get()
+	fmt.Println(gotten)
+	for gotten != "" {
+		fmt.Println(gotten)
+		gotten = reader.Get()
+	}
 }

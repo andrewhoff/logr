@@ -1,0 +1,6 @@
+hash: 5edccb5805a38c4e9c582f85b26bc79f792ef9e664db3fed6931ee9345a30964
+updated: 2018-01-14T15:20:17.064038317-06:00
+imports:
+- name: github.com/fatih/color
+  version: 570b54cabe6b8eb0bc2dfce68d964677d63b5260
+testImports: []
