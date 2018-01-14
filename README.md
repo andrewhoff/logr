@@ -10,3 +10,4 @@
 - [ ] More run examples
 - [ ] Tests! (thread-safety, fill up buffer)
 - [ ] Change empty system read behaviour from just returning an error, to waiting for logs to be written
+- [ ] Handle logs that aren't just strings. Some sort of composite obj.
