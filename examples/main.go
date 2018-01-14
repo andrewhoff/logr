@@ -32,7 +32,9 @@ func main() {
 	writer.Log(logr.MedPriority, "hello mid priority")
 
 	gotten := reader.Get()
-	fmt.Printf("Got log msg: %s", gotten)
+	if gotten != "" {
+		fmt.Printf("Got log msg: %s", gotten)
+	}
 	for gotten != "" {
 		gotten = reader.Get()
 		if gotten != "" {
