@@ -22,14 +22,14 @@ func main() {
 
 	writer.Log(logr.HighPriority, "hello super high priority")
 	writer.Log(logr.HighPriority, "hello 1")
-	writer.Log(logr.HighPriority, "hello 2")
-	writer.Log(logr.HighPriority, "hello 3")
 	writer.Log(logr.MedPriority, "hello mid priority")
 	writer.Log(logr.MedPriority, "hello mid priority")
 	writer.Log(logr.HighPriority, "hello 4")
 	writer.Log(logr.MedPriority, "hello mid priority")
 	writer.Log(logr.LowPriority, "hello low priority")
 	writer.Log(logr.MedPriority, "hello mid priority")
+	writer.Log(logr.HighPriority, "hello 2")
+	writer.Log(logr.HighPriority, "hello 3")
 
 	gotten := reader.Get()
 	if gotten != "" {
