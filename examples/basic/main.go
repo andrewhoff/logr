@@ -2,6 +2,7 @@ package main
 
 import (
 	"fmt"
+	"time"
 
 	"github.com/andrewhoff/logr"
 	"github.com/andrewhoff/logr/config"
@@ -9,7 +10,7 @@ import (
 
 func main() {
 	logr.InitWithOpts(&config.Opts{
-		Capacity:  3,
+		Capacity:  24,
 		Overwrite: true,
 	})
 
@@ -23,24 +24,42 @@ func main() {
 		panic(err)
 	}
 
-	if err := writer.Log(logr.HighPriority, "hello super high priority"); err != nil {
-		fmt.Printf("Error encountered trying to write to logs: %v\n", err)
-	}
-	if err := writer.Log(logr.LowPriority, "hello low priority 1"); err != nil {
-		fmt.Printf("Error encountered trying to write to logs: %v\n", err)
-	}
-	if err := writer.Log(logr.MedPriority, "hello mid priority 1"); err != nil {
-		fmt.Printf("Error encountered trying to write to logs: %v\n", err)
-	}
-	if err := writer.Log(logr.HighPriority, "hello 1"); err != nil {
-		fmt.Printf("Error encountered trying to write to logs: %v\n", err)
-	}
-	if err := writer.Log(logr.HighPriority, "hello 2"); err != nil {
-		fmt.Printf("Error encountered trying to write to logs: %v\n", err)
-	}
-	if err := writer.Log(logr.HighPriority, "hello 3"); err != nil {
-		fmt.Printf("Error encountered trying to write to logs: %v\n", err)
-	}
+	go func() {
+		if err := writer.Log(logr.HighPriority, "hello super high priority"); err != nil {
+			fmt.Printf("Error encountered trying to write to logs: %v\n", err)
+		}
+	}()
+
+	go func() {
+		if err := writer.Log(logr.LowPriority, "hello low priority 1"); err != nil {
+			fmt.Printf("Error encountered trying to write to logs: %v\n", err)
+		}
+	}()
+
+	go func() {
+		if err := writer.Log(logr.MedPriority, "hello mid priority 1"); err != nil {
+			fmt.Printf("Error encountered trying to write to logs: %v\n", err)
+		}
+	}()
+
+	go func() {
+		if err := writer.Log(logr.HighPriority, "hello 1"); err != nil {
+			fmt.Printf("Error encountered trying to write to logs: %v\n", err)
+		}
+	}()
+
+	go func() {
+		if err := writer.Log(logr.HighPriority, "hello 2"); err != nil {
+			fmt.Printf("Error encountered trying to write to logs: %v\n", err)
+		}
+	}()
+
+	go func() {
+		if err := writer.Log(logr.HighPriority, "hello 3"); err != nil {
+			fmt.Printf("Error encountered trying to write to logs: %v\n", err)
+		}
+	}()
+
 	if err := writer.Log(logr.MedPriority, "hello mid priority 2"); err != nil {
 		fmt.Printf("Error encountered trying to write to logs: %v\n", err)
 	}
@@ -62,6 +81,8 @@ func main() {
 	if err := writer.Log(logr.MedPriority, "hello mid priority 5"); err != nil {
 		fmt.Printf("Error encountered trying to write to logs: %v\n", err)
 	}
+
+	time.Sleep(250 * time.Millisecond)
 
 	gotten := reader.Get()
 	if gotten != "" {

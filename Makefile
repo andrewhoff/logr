@@ -11,3 +11,9 @@ build:
 	cd ./examples/cli-service && go build
 	cd ./examples/high-priority && go build
 	cd ./examples/locked-priority && go build
+
+build-race:
+	cd ./examples/basic && go build --race
+	cd ./examples/cli-service && go build --race
+	cd ./examples/high-priority && go build --race
+	cd ./examples/locked-priority && go build --race
