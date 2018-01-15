@@ -13,6 +13,8 @@ import (
 	"github.com/andrewhoff/logr/config"
 )
 
+const hostname = "http://localhost:8080"
+
 var (
 	mode     = flag.String("mode", "read", "serve|read|write")
 	priority = flag.Int("priority", 1, "priority level for log message possible values = [1,2,3]")
@@ -25,7 +27,7 @@ func main() {
 	switch *mode {
 
 	case "serve":
-		logr.InitWithOpts(&config.Opts{Capacity: 3, Overwrite: true})
+		logr.InitWithOpts(&config.Opts{Overwrite: true})
 		logr.Serve()
 
 	case "read":
@@ -53,7 +55,7 @@ func main() {
 }
 
 func httpRead() (string, error) {
-	resp, err := http.Get(":8080/read")
+	resp, err := http.Get(fmt.Sprintf("%s/read", hostname))
 	if err != nil {
 		return "", fmt.Errorf("Error encountered while trying to read: %v", err)
 	}
@@ -73,7 +75,7 @@ func httpWrite(priority int, msg string) error {
 	data.Add("priority", strconv.Itoa(priority))
 	data.Add("msg", msg)
 
-	resp, err := http.PostForm(":8080/write", data)
+	resp, err := http.PostForm(fmt.Sprintf("%s/write", hostname), data)
 	if err != nil {
 		return fmt.Errorf("Error encountered while trying to write: %v", err)
 	}
@@ -88,7 +90,7 @@ func httpWriteSevere(msg string) error {
 
 	data.Add("msg", msg)
 
-	resp, err := http.PostForm(":8080/write/severe", data)
+	resp, err := http.PostForm(fmt.Sprintf("%s/write/severe", hostname), data)
 	if err != nil {
 		return fmt.Errorf("Error encountered while trying to write: %v", err)
 	}

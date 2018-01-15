@@ -38,12 +38,18 @@ func writeHandler(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 
-	vals := r.Form
+	if err := r.ParseForm(); err != nil {
+		log.Fatal(err)
+	}
+
+	vals := r.PostForm
+
 	priorityStr := vals.Get("priority")
 	priority, err := strconv.Atoi(priorityStr)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		log.Printf("Error encountered while trying to handle write: %v\n", err)
+		return
 	}
 
 	msg := vals.Get("msg")
@@ -51,10 +57,10 @@ func writeHandler(w http.ResponseWriter, r *http.Request) {
 	if err := writer.Log(priority, msg); err != nil {
 		w.WriteHeader(http.StatusNotModified)
 		log.Printf("Error encountered while trying to handle write: %v\n", err)
+		return
 	}
 
 	w.Write([]byte("Log successfully written"))
-	w.WriteHeader(http.StatusCreated)
 }
 
 func severeWriteHandler(w http.ResponseWriter, r *http.Request) {
@@ -63,14 +69,19 @@ func severeWriteHandler(w http.ResponseWriter, r *http.Request) {
 		log.Fatal(err)
 	}
 
-	vals := r.Form
+	if err := r.ParseForm(); err != nil {
+		log.Fatal(err)
+	}
+
+	vals := r.PostForm
+
 	msg := vals.Get("msg")
 
 	if err := writer.Log(msg); err != nil {
 		w.WriteHeader(http.StatusNotModified)
 		log.Printf("Error encountered while trying to handle write: %v\n", err)
+		return
 	}
 
 	w.Write([]byte("Log successfully written"))
-	w.WriteHeader(http.StatusCreated)
 }

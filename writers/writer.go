@@ -5,6 +5,7 @@ import (
 
 	"github.com/andrewhoff/logr/config"
 	"github.com/andrewhoff/logr/store"
+	"github.com/fatih/color"
 )
 
 // GenericLogWriter ...
@@ -43,6 +44,9 @@ func (lw *SevereLogWriter) Log(val string) error {
 		Value:    val,
 		DateTime: time.Now(),
 	})
+	if err != nil {
+		color.Green("Write Succeeded")
+	}
 
 	return err
 }
