@@ -8,7 +8,10 @@ import (
 )
 
 func main() {
-	logr.InitWithOpts(&config.Opts{Capacity: 3, Overwrite: true})
+	logr.InitWithOpts(&config.Opts{
+		Capacity:  3,
+		Overwrite: true,
+	})
 
 	reader, err := logr.NewLogReader()
 	if err != nil {

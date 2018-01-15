@@ -5,12 +5,12 @@ import (
 	"time"
 )
 
-// ItemList ....
+// ItemList - list of log items
 type ItemList struct {
 	Items []*Item
 }
 
-// Item ...
+// Item - A log item, kind of the 'atom' of the system
 type Item struct {
 	Priority int
 	Value    string

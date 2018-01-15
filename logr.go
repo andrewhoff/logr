@@ -34,7 +34,12 @@ func NewGenericLogWriter() (*writers.GenericLogWriter, error) {
 	return writers.NewGenericLogWriter(), nil
 }
 
-// NewSevereLogWriter ...
-func NewSevereLogWriter() (*writers.SevereLogWriter, error) {
-	return writers.NewSevereLogWriter(), nil
+// NewLockedPriorityLogWriter ...
+func NewLockedPriorityLogWriter(priority int) (*writers.LockedPriorityLogWriter, error) {
+	return writers.NewLockedPriorityLogWriter(priority), nil
+}
+
+// NewHighPriorityLogWriter ...
+func NewHighPriorityLogWriter() (*writers.HighPriorityLogWriter, error) {
+	return writers.NewHighPriorityLogWriter(), nil
 }

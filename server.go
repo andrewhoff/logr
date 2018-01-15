@@ -33,12 +33,12 @@ func readHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func writeHandler(w http.ResponseWriter, r *http.Request) {
-	writer, err := NewGenericLogWriter()
-	if err != nil {
+	if err := r.ParseForm(); err != nil {
 		log.Fatal(err)
 	}
 
-	if err := r.ParseForm(); err != nil {
+	writer, err := NewGenericLogWriter()
+	if err != nil {
 		log.Fatal(err)
 	}
 
@@ -64,12 +64,12 @@ func writeHandler(w http.ResponseWriter, r *http.Request) {
 }
 
 func severeWriteHandler(w http.ResponseWriter, r *http.Request) {
-	writer, err := NewSevereLogWriter()
-	if err != nil {
+	if err := r.ParseForm(); err != nil {
 		log.Fatal(err)
 	}
 
-	if err := r.ParseForm(); err != nil {
+	writer, err := NewHighPriorityLogWriter()
+	if err != nil {
 		log.Fatal(err)
 	}
 
