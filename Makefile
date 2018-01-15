@@ -17,3 +17,6 @@ build-race:
 	cd ./examples/cli-service && go build --race
 	cd ./examples/high-priority && go build --race
 	cd ./examples/locked-priority && go build --race
+
+test: #run all tests
+	go test ./...

@@ -10,6 +10,13 @@ type ItemList struct {
 	Items []*Item
 }
 
+// NewItemList ...
+func NewItemList() *ItemList {
+	return &ItemList{
+		Items: make([]*Item, 0),
+	}
+}
+
 // Item - A log item, kind of the 'atom' of the system
 type Item struct {
 	Priority int
@@ -30,12 +37,9 @@ func (list *ItemList) Pop() *Item {
 	return item
 }
 
-// PopBack - pop from the back of the list
-func (list *ItemList) PopBack() *Item {
-	item := list.Items[len(list.Items)-1]
-	list.Items = list.Items[:len(list.Items)-1]
-
-	return item
+// Len ...
+func (list *ItemList) Len() int {
+	return len(list.Items)
 }
 
 func (list *ItemList) String() string {

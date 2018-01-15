@@ -10,7 +10,7 @@ import (
 
 func main() {
 	logr.InitWithOpts(&config.Opts{
-		Capacity:  24,
+		Capacity:  32,
 		Overwrite: true,
 	})
 

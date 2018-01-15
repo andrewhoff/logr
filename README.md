@@ -3,7 +3,7 @@
 ## Run Instructions
 1. Deps are committed, but if there are issues with them `glide install`
 2. `make` to build examples, then cd into each folder to run them
-3. `go test` to run tests
+3. `make test` to run all tests
 
 #### NOTE: the `cli-service` usage example is kind of a broker/pub-sub setup
 1. `./cli-service --mode=serve` in one terminal tab to run the broker/log server

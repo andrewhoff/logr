@@ -72,19 +72,19 @@ func (store *Store) DequeueOldestLowest() *Item {
 	if store.LenWithPriority(config.LowPriority) != 0 {
 		store.mutex.Lock()
 		defer store.mutex.Unlock()
-		return store.ds[config.LowPriority].PopBack()
+		return store.ds[config.LowPriority].Pop()
 	}
 
 	if store.LenWithPriority(config.MedPriority) != 0 {
 		store.mutex.Lock()
 		defer store.mutex.Unlock()
-		return store.ds[config.MedPriority].PopBack()
+		return store.ds[config.MedPriority].Pop()
 	}
 
 	if store.LenWithPriority(config.HighPriority) != 0 {
 		store.mutex.Lock()
 		defer store.mutex.Unlock()
-		return store.ds[config.HighPriority].PopBack()
+		return store.ds[config.HighPriority].Pop()
 	}
 
 	return nil
