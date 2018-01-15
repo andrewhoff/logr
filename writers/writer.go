@@ -31,6 +31,11 @@ func (lw *GenericLogWriter) Log(priority int, val string) error {
 type SevereLogWriter struct {
 }
 
+// NewSevereLogWriter ...
+func NewSevereLogWriter() *SevereLogWriter {
+	return &SevereLogWriter{}
+}
+
 // Log - this implementation will always try to log messages with the highest priority, automatically and specified priority needed
 func (lw *SevereLogWriter) Log(val string) error {
 	_, err := store.InternalDataStore.Enqueue(&store.Item{

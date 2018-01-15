@@ -18,12 +18,9 @@ const (
 	HighPriority = config.HighPriority
 )
 
-func init() {
-	store.Init()
-}
-
 // InitWithOpts ...
 func InitWithOpts(opts *config.Opts) {
+	store.Init()
 	config.SetOpts(opts)
 }
 
@@ -35,4 +32,9 @@ func NewLogReader() (*reader.LogReader, error) {
 // NewGenericLogWriter ...
 func NewGenericLogWriter() (*writers.GenericLogWriter, error) {
 	return writers.NewGenericLogWriter(), nil
+}
+
+// NewSevereLogWriter ...
+func NewSevereLogWriter() (*writers.SevereLogWriter, error) {
+	return writers.NewSevereLogWriter(), nil
 }
