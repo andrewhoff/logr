@@ -4,14 +4,23 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+
+	"github.com/fatih/color"
 )
 
-// StartServe - starts a Logr server [OPTIONAL]
-func StartServe() {
+// Serve - starts a Logr server [OPTIONAL]
+func Serve() {
 	http.HandleFunc("/write/severe", severeWriteHandler)
 	http.HandleFunc("/write", writeHandler)
 	http.HandleFunc("/read", readHandler)
-	panic(http.ListenAndServe(":8080", nil))
+
+	color.Green("Starting logr server...")
+
+	err := http.ListenAndServe(":8080", nil)
+
+	if err != nil {
+		color.Red(err.Error())
+	}
 }
 
 func readHandler(w http.ResponseWriter, r *http.Request) {
