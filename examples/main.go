@@ -8,28 +8,57 @@ import (
 )
 
 func main() {
-	logr.InitWithOpts(&config.Opts{})
+	logr.InitWithOpts(&config.Opts{Capacity: 3, Overwrite: true})
 
 	reader, err := logr.NewLogReader()
 	if err != nil {
 		panic(err)
 	}
 
-	writer, err := logr.NewLogWriter()
+	writer, err := logr.NewGenericLogWriter()
 	if err != nil {
 		panic(err)
 	}
 
-	writer.Log(logr.HighPriority, "hello super high priority")
-	writer.Log(logr.HighPriority, "hello 1")
-	writer.Log(logr.MedPriority, "hello mid priority")
-	writer.Log(logr.MedPriority, "hello mid priority")
-	writer.Log(logr.HighPriority, "hello 4")
-	writer.Log(logr.MedPriority, "hello mid priority")
-	writer.Log(logr.LowPriority, "hello low priority")
-	writer.Log(logr.MedPriority, "hello mid priority")
-	writer.Log(logr.HighPriority, "hello 2")
-	writer.Log(logr.HighPriority, "hello 3")
+	if err := writer.Log(logr.HighPriority, "hello super high priority"); err != nil {
+		fmt.Printf("Error encountered trying to write to logs: %v\n", err)
+	}
+	if err := writer.Log(logr.LowPriority, "hello low priority 1"); err != nil {
+		fmt.Printf("Error encountered trying to write to logs: %v\n", err)
+	}
+	if err := writer.Log(logr.MedPriority, "hello mid priority 1"); err != nil {
+		fmt.Printf("Error encountered trying to write to logs: %v\n", err)
+	}
+	if err := writer.Log(logr.HighPriority, "hello 1"); err != nil {
+		fmt.Printf("Error encountered trying to write to logs: %v\n", err)
+	}
+	if err := writer.Log(logr.HighPriority, "hello 2"); err != nil {
+		fmt.Printf("Error encountered trying to write to logs: %v\n", err)
+	}
+	if err := writer.Log(logr.HighPriority, "hello 3"); err != nil {
+		fmt.Printf("Error encountered trying to write to logs: %v\n", err)
+	}
+	if err := writer.Log(logr.MedPriority, "hello mid priority 2"); err != nil {
+		fmt.Printf("Error encountered trying to write to logs: %v\n", err)
+	}
+	if err := writer.Log(logr.MedPriority, "hello mid priority 3"); err != nil {
+		fmt.Printf("Error encountered trying to write to logs: %v\n", err)
+	}
+	if err := writer.Log(logr.HighPriority, "hello 4"); err != nil {
+		fmt.Printf("Error encountered trying to write to logs: %v\n", err)
+	}
+	if err := writer.Log(logr.MedPriority, "hello mid priority 4"); err != nil {
+		fmt.Printf("Error encountered trying to write to logs: %v\n", err)
+	}
+	if err := writer.Log(logr.LowPriority, "hello low priority 2"); err != nil {
+		fmt.Printf("Error encountered trying to write to logs: %v\n", err)
+	}
+	if err := writer.Log(logr.LowPriority, "hello lowest priority"); err != nil {
+		fmt.Printf("Error encountered trying to write to logs: %v\n", err)
+	}
+	if err := writer.Log(logr.MedPriority, "hello mid priority 5"); err != nil {
+		fmt.Printf("Error encountered trying to write to logs: %v\n", err)
+	}
 
 	gotten := reader.Get()
 	if gotten != "" {

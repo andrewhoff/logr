@@ -2,24 +2,15 @@ package store
 
 import (
 	"fmt"
+	"sync"
 
 	"github.com/andrewhoff/logr/config"
 )
 
-// // Item - An abstraction of an item that can be stored in
-// type Item interface {
-// 	String() string
-// }
-
-// // DataStore ...
-// type DataStore interface {
-// 	Create() Item
-// 	Delete() Item
-// }
-
-// Store ... map of slices
+// Store ... The highest level abstraction for where we put logged messages
 type Store struct {
-	ds map[int]*ItemList
+	ds    map[int]*ItemList
+	mutex *sync.Mutex
 }
 
 // InternalDataStore ...
@@ -29,37 +20,74 @@ var InternalDataStore *Store
 func Init() {
 	InternalDataStore = &Store{
 		make(map[int]*ItemList, config.NumPriorities),
+		&sync.Mutex{},
 	}
 }
 
-// Dequeue .. removes the next in line, highest priority item from the list
+// Enqueue .. Adds the item to the store
+func (store *Store) Enqueue(item *Item) (*Item, error) {
+	cap := config.Capacity()
+
+	if store.Len() == cap {
+		if config.ShouldOverwrite() {
+			store.DequeueOldestLowest()
+			return store.Enqueue(item)
+		}
+
+		return nil, fmt.Errorf("Store has reached capacity of %d", cap)
+	}
+
+	store.mutex.Lock()
+	defer store.mutex.Unlock()
+	store.ds[item.Priority].Add(item)
+
+	return item, nil
+}
+
+// Dequeue .. removes the next in line highest priority item from the list
 func (store *Store) Dequeue() *Item {
 	if store.LenWithPriority(config.HighPriority) != 0 {
+		store.mutex.Lock()
+		defer store.mutex.Unlock()
 		return store.ds[config.HighPriority].Pop()
 	}
 
 	if store.LenWithPriority(config.MedPriority) != 0 {
+		store.mutex.Lock()
+		defer store.mutex.Unlock()
 		return store.ds[config.MedPriority].Pop()
 	}
 
 	if store.LenWithPriority(config.LowPriority) != 0 {
+		store.mutex.Lock()
+		defer store.mutex.Unlock()
 		return store.ds[config.LowPriority].Pop()
 	}
 
 	return nil
 }
 
-// Enqueue .. removes the next in line, highest priority item from the list
-func (store *Store) Enqueue(item *Item) (*Item, error) {
-	cap := config.Capacity()
-
-	if store.Len() == cap {
-		return nil, fmt.Errorf("Store has reached capacity of %d", cap)
+// DequeueOldestLowest .. removes the oldest, lowest priority message possible, to make space for when the system is at capacity
+func (store *Store) DequeueOldestLowest() *Item {
+	if store.LenWithPriority(config.LowPriority) != 0 {
+		store.mutex.Lock()
+		defer store.mutex.Unlock()
+		return store.ds[config.LowPriority].PopBack()
 	}
 
-	store.ds[item.Priority].Add(item)
+	if store.LenWithPriority(config.MedPriority) != 0 {
+		store.mutex.Lock()
+		defer store.mutex.Unlock()
+		return store.ds[config.MedPriority].PopBack()
+	}
 
-	return item, nil
+	if store.LenWithPriority(config.HighPriority) != 0 {
+		store.mutex.Lock()
+		defer store.mutex.Unlock()
+		return store.ds[config.HighPriority].PopBack()
+	}
+
+	return nil
 }
 
 // Empty ...
@@ -69,6 +97,9 @@ func (store *Store) Empty() bool {
 
 // Len .. how many items are in logging system, of all priorities
 func (store *Store) Len() int {
+	store.mutex.Lock()
+	defer store.mutex.Unlock()
+
 	length := 0
 
 	if _, ok := store.ds[config.LowPriority]; !ok {
@@ -92,6 +123,9 @@ func (store *Store) Len() int {
 
 // LenWithPriority .. how many items are in logging system, of specified priority
 func (store *Store) LenWithPriority(priority int) int {
+	store.mutex.Lock()
+	defer store.mutex.Unlock()
+
 	return len(store.ds[priority].Items)
 }
 

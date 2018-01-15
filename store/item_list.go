@@ -1,6 +1,9 @@
 package store
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 
 // ItemList ....
 type ItemList struct {
@@ -11,17 +14,26 @@ type ItemList struct {
 type Item struct {
 	Priority int
 	Value    string
+	DateTime time.Time
 }
 
-// Add ...
+// Add - append to end of list
 func (list *ItemList) Add(item *Item) {
 	list.Items = append(list.Items, item)
 }
 
-// Pop ...
+// Pop - remove from top of list
 func (list *ItemList) Pop() *Item {
 	item := list.Items[0]
 	list.Items = list.Items[1:]
+
+	return item
+}
+
+// PopBack - pop from the back of the list
+func (list *ItemList) PopBack() *Item {
+	item := list.Items[len(list.Items)-1]
+	list.Items = list.Items[:len(list.Items)-1]
 
 	return item
 }

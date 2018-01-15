@@ -32,7 +32,7 @@ func NewLogReader() (*reader.LogReader, error) {
 	return reader.NewLogReader(), nil
 }
 
-// NewLogWriter ...
-func NewLogWriter() (*writers.LogWriter, error) {
-	return writers.NewLogWriter(), nil
+// NewGenericLogWriter ...
+func NewGenericLogWriter() (*writers.GenericLogWriter, error) {
+	return writers.NewGenericLogWriter(), nil
 }

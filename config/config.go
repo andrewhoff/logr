@@ -22,7 +22,11 @@ var opts *Opts
 
 // Opts ...
 type Opts struct {
+	// Capacity - How many items in total the logging system can hold
 	Capacity int
+
+	// Overwrite - set this to true to, in the event of the logging system becoming completely full, remove the oldest, lowest priority item, in order to make space for the new item
+	Overwrite bool
 }
 
 // SetOpts ...
@@ -37,4 +41,9 @@ func Capacity() int {
 	}
 
 	return opts.Capacity
+}
+
+// ShouldOverwrite ...
+func ShouldOverwrite() bool {
+	return opts.Overwrite
 }
