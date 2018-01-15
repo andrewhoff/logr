@@ -8,8 +8,7 @@ import (
 )
 
 // GenericLogWriter ...
-type GenericLogWriter struct {
-}
+type GenericLogWriter struct{}
 
 // NewGenericLogWriter ...
 func NewGenericLogWriter() *GenericLogWriter {

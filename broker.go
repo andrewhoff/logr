@@ -8,13 +8,13 @@ import (
 	"github.com/fatih/color"
 )
 
-// Serve - starts a Logr server [OPTIONAL]
+// Serve - starts a Logr broker [OPTIONAL]
 func Serve() {
 	http.HandleFunc("/write/severe", severeWriteHandler)
 	http.HandleFunc("/write", writeHandler)
 	http.HandleFunc("/read", readHandler)
 
-	color.Green("Starting logr server...")
+	color.Green("Starting logr broker...")
 
 	err := http.ListenAndServe(":8080", nil)
 
