@@ -29,10 +29,18 @@ func (list *ItemList) Add(item *Item) {
 	list.Items = append(list.Items, item)
 }
 
-// Pop - remove from top of list
+// Pop - remove from top of list (oldest)
 func (list *ItemList) Pop() *Item {
 	item := list.Items[0]
 	list.Items = list.Items[1:]
+
+	return item
+}
+
+// PopBack - remove from end of list (most recent)
+func (list *ItemList) PopBack() *Item {
+	item := list.Items[len(list.Items)-1]
+	list.Items = list.Items[:len(list.Items)-1]
 
 	return item
 }

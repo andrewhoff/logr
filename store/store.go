@@ -44,24 +44,24 @@ func (store *Store) Enqueue(item *Item) (*Item, error) {
 	return item, nil
 }
 
-// Dequeue .. removes the next in line highest priority item from the list
+// Dequeue .. removes the most recent highest priority item from the list
 func (store *Store) Dequeue() *Item {
 	if store.LenWithPriority(config.HighPriority) != 0 {
 		store.mutex.Lock()
 		defer store.mutex.Unlock()
-		return store.ds[config.HighPriority].Pop()
+		return store.ds[config.HighPriority].PopBack()
 	}
 
 	if store.LenWithPriority(config.MedPriority) != 0 {
 		store.mutex.Lock()
 		defer store.mutex.Unlock()
-		return store.ds[config.MedPriority].Pop()
+		return store.ds[config.MedPriority].PopBack()
 	}
 
 	if store.LenWithPriority(config.LowPriority) != 0 {
 		store.mutex.Lock()
 		defer store.mutex.Unlock()
-		return store.ds[config.LowPriority].Pop()
+		return store.ds[config.LowPriority].PopBack()
 	}
 
 	return nil
