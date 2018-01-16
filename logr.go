@@ -43,3 +43,8 @@ func NewLockedPriorityLogWriter(priority int) (*writers.LockedPriorityLogWriter,
 func NewHighPriorityLogWriter() (*writers.HighPriorityLogWriter, error) {
 	return writers.NewHighPriorityLogWriter(), nil
 }
+
+// NewLazyLogWriter ...
+func NewLazyLogWriter(priority int) (*writers.LazyLogWriter, error) {
+	return writers.NewLazyLogWriter(priority), nil
+}
